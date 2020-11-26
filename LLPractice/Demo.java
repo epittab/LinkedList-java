@@ -6,6 +6,8 @@ import java.util.ListIterator;
 import java.util.Scanner;
 
 public class Demo {
+
+    private static String mySentence = "Now visiting ";
     public static void main(String[] args){
         //
         LinkedList<String> placesToVisit = new LinkedList<String>();
@@ -33,7 +35,7 @@ public class Demo {
     private static void printList(LinkedList<String> linkedList) {
         Iterator<String> i = linkedList.iterator();
         while (i.hasNext()) {
-            System.out.println("Now visiting " + i.next());
+            System.out.println(mySentence + i.next());
         }
         System.out.println("==========");
     }
@@ -74,7 +76,7 @@ public class Demo {
             System.out.println("No cities to visit.");  
             return;  
         } else {
-            System.out.println("Now visiting " + listIterator.next());
+            System.out.println(mySentence + listIterator.next());
             printMenu();
         }
 
@@ -87,32 +89,10 @@ public class Demo {
                     quit = true;
                     break;
                 case 1:
-                if (!goingForward) {
-                    if (listIterator.hasNext()) {
-                        listIterator.next();
-                    }
-                    goingForward = true;
-                }
-                    if (listIterator.hasNext()) {
-                        System.out.println("Now visiting " + listIterator.next());
-                    } else {
-                        System.out.println("Reached the end of the list");
-                        goingForward = false;
-                    }
+                    goingForward = forward(goingForward, listIterator);
                     break;
                 case 2:
-                    if (goingForward) {
-                        if (listIterator.hasPrevious()) {
-                            listIterator.previous();
-                        }
-                        goingForward = false;
-                    }
-                    if (listIterator.hasPrevious()) {
-                        System.out.println("Now visiting " + listIterator.previous());
-                    } else {
-                        System.out.println("Reached the beginning of the list");
-                        goingForward = true;
-                    }
+                    goingForward = backward(goingForward, listIterator);
                     break;
                 case 3:
                     printMenu();
@@ -122,6 +102,38 @@ public class Demo {
             }
         }
 
+    }
+
+    private static boolean forward(boolean goingForward, ListIterator listIterator){
+        if (!goingForward) {
+            if (listIterator.hasNext()) {
+                listIterator.next();
+            }
+            goingForward = true;
+        }
+            if (listIterator.hasNext()) {
+                System.out.println(mySentence + listIterator.next());
+            } else {
+                System.out.println("Reached the end of the list");
+                goingForward = false;
+            }
+        return goingForward;
+    }
+    
+    private static boolean backward(boolean goingForward, ListIterator listIterator){
+        if (goingForward) {
+            if (listIterator.hasPrevious()) {
+                listIterator.previous();
+            }
+            goingForward = false;
+        }
+        if (listIterator.hasPrevious()) {
+            System.out.println(mySentence + listIterator.previous());
+        } else {
+            System.out.println("Reached the beginning of the list");
+            goingForward = true;
+        }
+        return goingForward;
     }
 
     private static void printMenu(){
